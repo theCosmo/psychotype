@@ -140,23 +140,89 @@
 
 <script>
 
+const renderResult = response => {
+  resultBlock = `
+    <div>
+    <h3>Ваша профессия находится в группе <br> <br> ${response.response}</h3>
+    </div>
+  `
+  document.getElementById('result').innerHTML += resultBlock
+}
 
 
 const renderResponse = result => {
   resultBlock = `
-    <div>
-    <h3>Ваша профессия находится в группе ${result.result}</h3>
+    <div id="points">
+    <h3>Ваша профессия находится в группе ${result.title}</h3>
+    <p>${result.description}</p>
     <br>
     <h4>Введите ваши баллы ЕГЭ</h4>
+    <br>
     <form action="" id="ege_points">
       {% csrf_token %}
+      <h5>Введите город</h5>
+
       <div class="form-group">
-        <label for="email">Email address:</label>
-        <input type="text" class="form-control" name="email">
+        <input type="hidden" value="${result.title}" class="form-control" name="psychotype">
+      </div>
+
+      <div class="form-group">
+        <input type="text" class="form-control" name="city">
+      </div>
+
+      <br><br>
+
+      <div class="form-group">
+        <label for="email">Информатика</label>
+        <input type="text" class="form-control" name="info">
       </div>
       <div class="form-group">
-        <label for="pwd">Password:</label>
-        <input type="text" class="form-control" name="pwd">
+        <label for="email">История</label>
+        <input type="text" class="form-control" name="history">
+      </div>
+      <div class="form-group">
+        <label for="email">География:</label>
+        <input type="text" class="form-control" name="geography">
+      </div>
+      <div class="form-group">
+        <label for="email">Скульптура</label>
+        <input type="text" class="form-control" name="sculpture">
+      </div>
+      <div class="form-group">
+        <label for="email">Рисунок</label>
+        <input type="text" class="form-control" name="paint">
+      </div>
+      <div class="form-group">
+        <label for="email">Химия</label>
+        <input type="text" class="form-control" name="chemistry">
+      </div>
+      <div class="form-group">
+        <label for="email">Биология</label>
+        <input type="text" class="form-control" name="biology">
+      </div>
+      <div class="form-group">
+        <label for="email">Физика</label>
+        <input type="text" class="form-control" name="physyc">
+      </div>
+      <div class="form-group">
+        <label for="email">Литература</label>
+        <input type="text" class="form-control" name="literutare">
+      </div>
+      <div class="form-group">
+        <label for="email">Английский язык</label>
+        <input type="text" class="form-control" name="language">
+      </div>
+      <div class="form-group">
+        <label for="email">Обществознание</label>
+        <input type="text" class="form-control" name="society">
+      </div>
+      <div class="form-group">
+        <label for="email">Математика</label>
+        <input type="text" class="form-control" name="math">
+      </div>
+      <div class="form-group">
+        <label for="email">Русский язык</label>
+        <input type="text" class="form-control" name="russian">
       </div>
       <button type="submit" class="btn btn-default">Submit</button>
     </form>
@@ -172,10 +238,10 @@ $(document).on('submit', '#ege_points', function(e) {
       type:'POST',
       url: "{% url 'ege_points' %}",
       data: $(this).serialize(),
-      success : function(result) {
-          $('#test_vals').html('')
-          console.log(result)
-          renderResponse(result)
+      success : function(response) {
+          $('#points').html('')
+          console.log(response)
+          renderResult(response)
       },
     })
 });
@@ -189,7 +255,6 @@ $(document).on('submit', '#prof_choice', function(e) {
       data: $(this).serialize(),
       success : function(result) {
           $('#test_vals').html('')
-          console.log(result)
           renderResponse(result)
       },
     })
